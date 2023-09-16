@@ -8,12 +8,51 @@
   - name: Install packages
     community.general.pacman:
       name:
+        - yay
+        - tmux
+        - bat
+        - bc
         - htop
         - alacritty
+        - chromium
+        - clang
+        - cmake
+        - curl
+        - wget
+        - darktable
+        - feh
+        - freetype2
+        - fzf
+        - gcc
+        - gimp
+        - gnome-calculator
+        - gnupg
+        - graphviz
+        - gzip
+        - i3-wm
+        - i3blocks
+        - i3status
+        - keepassxc
+        - lazygit
+        - lua
+        - make
+        - neovim
+        - picom
+        - ranger
+        - ripgrep
+        - rofi
+        - sed
+        - spotify
+        - stow
+        - synology-drive
+        - tree
+        - tree-sitter
+        - ttf-font-awesome
+        - unzip
+        - vulkan-headers
+        - vulkan-icd-loader
+        - vulkan-tools
+        - vulkan-validation-layers
+        - vulkan-validation-layers
       state: present
   
-  - name: Install htop
-    community.general.pacman:
-      name: htop
-      state: present
-
