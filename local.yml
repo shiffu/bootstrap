@@ -5,6 +5,13 @@
   become: true
 
   tasks:
+  - name: Install packages
+    community.general.pacman:
+      name:
+        - htop
+        - alacritty
+      state: present
+  
   - name: Install htop
     community.general.pacman:
       name: htop
