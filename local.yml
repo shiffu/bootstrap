@@ -42,7 +42,6 @@
         - rofi
         - sed
         - stow
-        - synology-drive
         - tree
         - tree-sitter
         - ttf-font-awesome
