@@ -8,7 +8,6 @@
   - name: Install packages
     community.general.pacman:
       name:
-        - yay
         - tmux
         - bat
         - bc
