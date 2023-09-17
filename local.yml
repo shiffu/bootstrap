@@ -20,6 +20,7 @@
         - wget
         - darktable
         - feh
+        - freerdp
         - freetype2
         - fzf
         - gcc
