@@ -51,5 +51,6 @@
         - vulkan-tools
         - vulkan-validation-layers
         - vulkan-validation-layers
+        - zsh
       state: present
   
