@@ -54,3 +54,6 @@
         - zsh
       state: present
   
+  - name: dotfiles checkout
+    repo: https://github.com/shiffu/dotfiles.git
+    dest: tmp
