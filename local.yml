@@ -1,6 +1,7 @@
 ---
 
-- hosts: localhost
+- name: Bootstrapping a new Arch Linux workstation
+  hosts: localhost
   connection: local
   become: true
 
@@ -55,5 +56,7 @@
       state: present
   
   - name: dotfiles checkout
-    repo: https://github.com/shiffu/dotfiles.git
-    dest: tmp
+    become_user: jcpennel
+    git:
+      repo: https://github.com/shiffu/dotfiles.git
+      dest: /home/jcpennel/dotfiles
