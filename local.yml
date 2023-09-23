@@ -21,7 +21,6 @@
         - wget
         - darktable
         - feh
-        - freerdp
         - freetype2
         - fzf
         - gcc
@@ -44,6 +43,7 @@
         - rofi
         - sed
         - stow
+        - task
         - tree
         - tree-sitter
         - ttf-font-awesome
@@ -56,8 +56,32 @@
         - zsh
       state: present
   
-  - name: dotfiles checkout
+  - name: dotfiles git clone
     become_user: jcpennel
+    register: dotfiles_status
     git:
       repo: https://github.com/shiffu/dotfiles.git
-      dest: ~
+      dest: $HOME/dotfiles
+
+  - name: Stow dotfiles
+    become_user: jcpennel
+    stow:
+      state: present
+      package: '{{ item }}'
+      dir: $HOME/dotfiles
+    with_items:
+      - git
+      - mergetool
+      - zsh
+      - tmux
+      - nvim
+      - alacritty
+      - task
+      - gdb
+      - i3
+      - i3blocks
+
+  - name: Activate zsh as default Shell
+    shell:
+      cmd: chsh -s /usr/bin/zsh jcpennel
+    when: ansible_facts['user_shell'] != '/usr/bin/zsh'
