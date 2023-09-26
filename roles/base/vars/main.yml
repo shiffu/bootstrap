@@ -1,0 +1,2 @@
+p4merge_tgz_filepath: '/home/{{ user_name }}/Downloads/p4v.tgz'
+p4merge_dir: 'p4v-2023.2.2467475'

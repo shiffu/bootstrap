@@ -1,129 +1,19 @@
 ---
 
-- name: Bootstrapping a new Arch Linux workstation
-  hosts: localhost
-  connection: local
+- name: Setting up a new Arch Linux workstation
+  hosts: all
   become: true
   vars:
-    home: "{{ lookup('env', 'HOME') }}"
+    user_name: jcpennel
 
-  vars_prompt:
-    - name: p4merge_path
-      prompt: "Path to the downloaded P4Merge tgz"
-      default: "{{ home }}/Downloads/p4v.tgz"
+  roles:
+    - base
 
-  tasks:
-  - name: Install packages
-    community.general.pacman:
-      name:
-        - man
-        - tmux
-        - bat
-        - bc
-        - htop
-        - alacritty
-        - chromium
-        - clang
-        - cmake
-        - curl
-        - wget
-        - darktable
-        - feh
-        - freetype2
-        - fzf
-        - gcc
-        - gimp
-        - gnome-calculator
-        - gnupg
-        - graphviz
-        - gzip
-        - i3-wm
-        - i3blocks
-        - i3status
-        - keepassxc
-        - lazygit
-        - lua
-        - lightdm
-        - lightdm-gtk-greeter
-        - make
-        - neovim
-        - picom
-        - ranger
-        - ripgrep
-        - rofi
-        - sed
-        - stow
-        - task
-        - tigervnc
-        - tree
-        - tree-sitter
-        - ttf-font-awesome
-        - ttf-hack-nerd
-        - unzip
-        - vulkan-headers
-        - vulkan-icd-loader
-        - vulkan-tools
-        - vulkan-validation-layers
-        - vulkan-validation-layers
-        - xorg-xauth
-        - zsh
-      state: present
-  
-  - name: dotfiles git clone
-    become_user: jcpennel
-    register: dotfiles_status
-    git:
-      repo: https://github.com/shiffu/dotfiles.git
-      dest: "{{ home }}/dotfiles"
+- name: Setting up KDE specific config
+  hosts: kde
+  become: true
+  vars:
+    user_name: jcpennel
 
-  - name: Stow dotfiles
-    become_user: jcpennel
-    stow:
-      state: present
-      package: '{{ item }}'
-      dir: "{{ home }}/dotfiles/"
-    with_items:
-      - git
-      - mergetool
-      - zsh
-      - tmux
-      - nvim
-      - alacritty
-      - task
-      - gdb
-      - i3
-      - i3blocks
-
-  - name: Activate zsh as default Shell
-    shell:
-      cmd: chsh -s /usr/bin/zsh jcpennel
-    when: ansible_facts['user_shell'] != '/usr/bin/zsh'
-
-  - name: Extract P4Merge
-    shell: 'tar xzf {{ p4merge_path }} && rm -f p4v.tgz'
-    args:
-      chdir: /opt/
-      creates: /opt/p4v-*/
-
-  - name: Get the folder name of extracted P4Merge
-    shell: ls -d p4v-*
-    register: p4v_extracted_folder
-    args:
-      chdir: /opt/
-      creates: /opt/p4v-*/bin/p4merge
-
-  # - name: Test p4v extracted folder name
-  #   debug:
-  #     msg: '{{ p4v_extracted_folder.stdout }}'
-
-  - name: Add symlink to p4merge binary in /usr/bin
-    shell: 'ln -s /opt/{{ p4v_extracted_folder.stdout }}/bin/p4merge p4merge'
-    args:
-      chdir: /usr/bin
-      creates: p4merge
-
-  - name: LightDM service Enable
-    service:
-      name: lightdm
-      state: started
-      enabled: yes
+  roles:
+    - kde

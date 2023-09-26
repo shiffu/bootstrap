@@ -1,0 +1,88 @@
+---
+
+- name: Install packages
+  package:
+    name:
+      - man
+      - tmux
+      - bat
+      - bc
+      - htop
+      - alacritty
+      - chromium
+      - clang
+      - cmake
+      - gcc
+      - gimp
+      - gnupg
+      - graphviz
+      - gzip
+      - keepassxc
+      - lazygit
+      - lua
+      - make
+      - neovim
+      - ripgrep
+      - sed
+      - stow
+      - task
+      - tigervnc
+      - tree
+      - tree-sitter
+      - ttf-font-awesome
+      - ttf-hack-nerd
+      - unzip
+      - vulkan-headers
+      - vulkan-icd-loader
+      - vulkan-tools
+      - vulkan-validation-layers
+      - vulkan-validation-layers
+      - xorg-xauth
+      - zsh
+    state: present
+    update_cache: yes
+
+- name: dotfiles git clone
+  become_user: '{{ user_name }}'
+  register: dotfiles_status
+  git:
+    repo: https://github.com/shiffu/dotfiles.git
+    dest: '/home/{{ user_name }}/dotfiles'
+
+- name: Stow dotfiles
+  become_user: '{{ user_name }}'
+  stow:
+    state: present
+    package: '{{ item }}'
+    dir: '/home/{{ user_name }}/dotfiles'
+  with_items:
+    - git
+    - mergetool
+    - zsh
+    - tmux
+    - nvim
+    - alacritty
+    - task
+    - gdb
+
+- name: Activate zsh as default Shell
+  shell:
+    cmd: 'chsh -s /usr/bin/zsh {{ user_name }}'
+  when: ansible_facts['user_shell'] != '/usr/bin/zsh'
+
+- name: Extract P4Merge tgz
+  unarchive:
+    owner: '{{ user_name }}'
+    src: '{{ p4merge_tgz_filepath }}'
+    dest: /opt
+    creates: '/opt/{{ p4merge_dir }}/'
+
+# - name: DEBUG MSG
+#   debug:
+#     msg: '{{ user_name }} {{ p4v_extracted_folder.stdout }}'
+
+- name: Add symlink to p4merge binary in /usr/bin
+  shell: 'ln -s /opt/{{ p4merge_dir }}/bin/p4merge p4merge'
+  args:
+    chdir: /usr/bin
+    creates: p4merge

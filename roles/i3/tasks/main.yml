@@ -1,0 +1,31 @@
+---
+
+- name: Install I3 specific packages
+  package:
+    name:
+      - feh
+      - gnome-calculator
+      - i3-wm
+      - i3blocks
+      - i3status
+      - lightdm
+      - lightdm-gtk-greeter
+      - picom
+      - ranger
+    state: present
+
+- name: Stow dotfiles
+  become_user: '{{ user_name }}'
+  stow:
+    state: present
+    package: '{{ item }}'
+    dir: "{{ ansible_facts['user_dir'] }}/dotfiles/"
+  with_items:
+    - i3
+    - i3blocks
+
+- name: LightDM service Enable
+  service:
+    name: lightdm
+    state: started
+    enabled: yes
