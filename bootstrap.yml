@@ -1,0 +1,17 @@
+---
+
+- name: Creates the ansible user with ssh key and sudoers config
+  hosts: initial_setup
+  remote_user: root
+  vars_file: ~/.ansible/vaults/arch_linux_setup
+
+  tasks:
+    - name: Create the ansible user
+      user:
+        name: "{{ ansible_user_name }}"
+        generate_ssh_key: true
+        group: "{{ ansible_user_group }}"
+        groups: wheel
+        password: "{{ ansible_user_pwd | password_hash('sha512', 'ansible_user_salt') }}"
+        state: present
+
