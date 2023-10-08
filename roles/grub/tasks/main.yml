@@ -23,3 +23,12 @@
     opts: rw,relatime
     passno: 1
     state: mounted
+
+- name: Run grub-install
+  command:
+    cmd: grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+
+- name: Check /boot/grub/locale exists
+  file:
+    path: /boot/grub/locale/
+    state: directory
