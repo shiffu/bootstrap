@@ -47,7 +47,7 @@
         regexp: "^#en_US.UTF-8 UTF-8"
         line: "en_US.UTF-8 UTF-8"
         state: present
-        notify: exec_locale_gen
+      notify: exec_locale_gen
 
     - name: Create the main user
       user:
