@@ -77,10 +77,6 @@
     dest: /opt
     creates: '/opt/{{ p4merge_dir }}/'
 
-# - name: DEBUG MSG
-#   debug:
-#     msg: '{{ user_name }} {{ p4v_extracted_folder.stdout }}'
-
 - name: Add symlink to p4merge binary in /usr/bin
   shell: 'ln -s /opt/{{ p4merge_dir }}/bin/p4merge p4merge'
   args:
