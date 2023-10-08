@@ -1,33 +1,25 @@
 ---
 
-- name: Grub install from a chroot environment
-  hosts: localhost
-  connection: local
-  vars_files:
-    - ~/.ansible/vaults/arch_linux_setup
+- name: Install grub packages
+  package:
+    state: present
+    name:
+      - grub
+      - efibootmgr
+      - dosfstools
+      - os-prober
+      - mtools
 
-  tasks:
-    - name: Install grub packages
-      package:
-        state: present
-        name:
-          - grub
-          - efibootmgr
-          - dosfstools
-          - os-prober
-          - mtools
+- name: Create the EFI folder
+  file:
+    path: /boot/EFI
+    state: directory
 
-    - name: Create the EFI folder
-      file:
-        path: /boot/EFI
-        state: directory
-  
-    - name: Mount the EFI folder
-      mount:
-        path: /boot/EFI/
-        src: /dev/vg0/root_lv
-        fstype: ext4
-        opts: rw,relatime
-        passno: 1
-        state: mounted
-
+- name: Mount the EFI folder
+  mount:
+    path: /boot/EFI/
+    src: /dev/vg0/root_lv
+    fstype: ext4
+    opts: rw,relatime
+    passno: 1
+    state: mounted
