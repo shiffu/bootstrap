@@ -3,6 +3,8 @@
 - name: Initial Setup (base packages and kernel creation) from a chroot environment
   hosts: localhost
   connection: local
+  vars_files:
+    - ~/.ansible/vaults/arch_linux_setup
 
   tasks:
     - name: Install needed base packages
