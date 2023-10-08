@@ -1,0 +1,3 @@
+- name: gen_fstab
+  command:
+    cmd: genfstab -U -p /mnt >> /mnt/etc/fstab

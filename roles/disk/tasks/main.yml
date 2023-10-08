@@ -88,3 +88,4 @@
     opts: rw,relatime
     passno: 2
     state: mounted
+  notify: gen_fstab
