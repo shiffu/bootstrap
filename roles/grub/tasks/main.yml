@@ -32,3 +32,14 @@
   file:
     path: /boot/grub/locale/
     state: directory
+
+- name: Copy locale file
+  copy:
+    remote_src: true
+    src: /usr/share/locale/en@quot/LC_MESSAGES/grub.mo
+    dest: /boot/grub/locale/en.mo
+
+- name: Run grub-mkconfig
+  command:
+    cmd: grub-mkconfig -o /boot/grub/grub.cfg
+
