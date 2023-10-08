@@ -1,0 +1,34 @@
+---
+
+- name: Initial Setup (base packages and kernel creation) from a chroot environment
+  hosts: initial_setup
+  connection: local
+
+  tasks:
+    - name: Install needed base packages
+      packages:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - linux
+        - linux-headers
+        - linux-lts
+        - linux-lts-headers
+        - neovim
+        - base-devel
+        - openssh
+        - networkmanager
+        - wpa_supplicant
+        - wireless_tools
+        - netctl
+        - dialog
+        - lvm2
+        - sudo
+
+    - name: Enable sshd and NetworkManager services
+      service:
+        name: "{{ item }}"
+        state: enabled
+      loop:
+        - sshd
+        - NetworkManager
