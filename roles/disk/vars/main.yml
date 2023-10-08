@@ -1,4 +1,4 @@
-device_name: /dev/vda
+device_name: "{{ install_device_name }}"
 efi_partition_size: 200MB
 root_lv_size: 32G
 home_lv_size: 100%FREE

@@ -18,7 +18,7 @@
 - name: Mount the EFI folder
   mount:
     path: /boot/EFI/
-    src: "{{ device_name }}1"
+    src: "{{ install_device_name }}1"
     opts: rw,relatime
     passno: 1
     state: mounted
