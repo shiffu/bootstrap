@@ -64,6 +64,9 @@
         line: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
         state: present
 
+  roles:
+    - grub
+
   handlers:
     - name: exec_locale_gen
       command:
