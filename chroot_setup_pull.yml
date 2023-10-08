@@ -6,7 +6,7 @@
 
   tasks:
     - name: Install needed base packages
-      packages:
+      package:
         name: "{{ item }}"
         state: present
       loop:
@@ -28,7 +28,15 @@
     - name: Enable sshd and NetworkManager services
       service:
         name: "{{ item }}"
-        state: enabled
+        enabled: true
       loop:
         - sshd
         - NetworkManager
+
+    # - name: Update mkinitcpio config
+    #   lineinfile:
+    #     path: /etc/mkinitcpio.conf
+    #     regexp: ""
+    #     line: ""
+    #     state: present
+
