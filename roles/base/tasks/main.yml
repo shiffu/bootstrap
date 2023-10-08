@@ -33,6 +33,7 @@
     regexp: "^#\\s+HOOKS=\\(base udev modconf block lvm2 filesystems fsck\\)"
     line: "HOOKS=(base udev modconf block lvm2 filesystems fsck)"
     state: present
+  notify: create_linux_kernel_images
 
 - name: Update locale.gen config
   lineinfile:

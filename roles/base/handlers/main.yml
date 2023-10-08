@@ -1,5 +1,12 @@
 ---
 
+- name: create_linux_kernel_images
+  command:
+    cmd: mkinitcpio -p {{ item }}
+  loop:
+    - linux
+    - linux-lts
+
 - name: exec_locale_gen
   command:
     cmd: locale-gen
