@@ -13,7 +13,7 @@
 
 - name: Create the LVM Partition (/root and /home)
   community.general.parted:
-    device: /dev/vda
+    device: "{{ device_name }}"
     number: 2
     flags: [ lvm ]
     label: gpt
