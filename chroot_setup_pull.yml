@@ -61,3 +61,10 @@
         password: "{{ main_user_pwd | password_hash('sha512', main_user_salt) }}"
         state: present
 
+    - name: Set the wheel group in the sudoers file to nopasswd
+      lineinfile:
+        path: /etc/sudoers
+        regexp: "^# %wheel ALL=\\(ALL:ALL\\) NOPASSWD: ALL"
+        line: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+        state: present
+
