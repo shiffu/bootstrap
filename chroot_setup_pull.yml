@@ -46,3 +46,16 @@
         regexp: "^#en_US.UTF-8 UTF-8"
         line: "en_US.UTF-8 UTF-8"
         state: present
+
+    - name: Execute locale-gen
+      command:
+        cmd: locale-gen
+
+    - name: Create the main user
+      user:
+        name: "{{ main_user_name }}"
+        group: "{{ main_user_group }}"
+        groups: wheel
+        password: "{{ main_user_pwd | password_hash('sha512', main_user_salt) }}"
+        state: present
+
