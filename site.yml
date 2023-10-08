@@ -1,19 +1,15 @@
 ---
 
 - name: Setting up a new Arch Linux workstation
-  hosts: all
-  become: true
-  vars:
-    user_name: jcpennel
+  hosts: localhost
+  connection: local
 
   roles:
     - base
 
 - name: Setting up KDE specific config
-  hosts: kde
-  become: true
-  vars:
-    user_name: jcpennel
+  hosts: localhost
+  connection: local
 
   roles:
     - kde
