@@ -1,0 +1,18 @@
+---
+
+- name: Grub install from a chroot environment
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ~/.ansible/vaults/arch_linux_setup
+
+  tasks:
+    - name: Install grub packages
+      package:
+        state: present
+        name:
+          - grub
+          - efibootmgr
+          - dosfstools
+          - os-prober
+          - mtools
