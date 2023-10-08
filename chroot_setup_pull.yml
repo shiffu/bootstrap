@@ -39,3 +39,10 @@
         regexp: "^#\\s+HOOKS=\\(base udev modconf block lvm2 filesystems fsck\\)"
         line: "HOOKS=(base udev modconf block lvm2 filesystems fsck)"
         state: present
+
+    - name: Update locale.gen config
+      lineinfile:
+        path: /etc/locale.gen
+        regexp: "^#en_US.UTF-8 UTF-8"
+        line: "en_US.UTF-8 UTF-8"
+        state: present
