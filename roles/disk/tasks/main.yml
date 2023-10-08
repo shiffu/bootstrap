@@ -8,7 +8,7 @@
     flags: [ boot ]
     label: gpt
     name: EFI Boot Partition
-    part_end: 200MB
+    part_end: "{{ efi_partition_size }}"
     state: present
 
 - name: Create the LVM Partition (/root and /home)

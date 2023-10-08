@@ -21,7 +21,6 @@
     src: "{{ install_device_name }}1"
     opts: rw,relatime
     fstype: vfat
-    passno: 1
     state: mounted
 
 - name: Run grub-install
