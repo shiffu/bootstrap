@@ -16,3 +16,18 @@
           - dosfstools
           - os-prober
           - mtools
+
+    - name: Create the EFI folder
+      file:
+        path: /boot/EFI
+        state: directory
+  
+    - name: Mount the EFI folder
+      mount:
+        path: /boot/EFI/
+        src: /dev/vg0/root_lv
+        fstype: ext4
+        opts: rw,relatime
+        passno: 1
+        state: mounted
+
