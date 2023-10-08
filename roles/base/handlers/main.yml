@@ -1,0 +1,5 @@
+---
+
+- name: exec_locale_gen
+  command:
+    cmd: locale-gen
