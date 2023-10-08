@@ -1,7 +1,7 @@
 ---
 
 - name: Initial Setup (base packages and kernel creation) from a chroot environment
-  hosts: initial_setup
+  hosts: localhost
   connection: local
 
   tasks:
