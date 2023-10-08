@@ -9,23 +9,22 @@
   tasks:
     - name: Install needed base packages
       package:
-        name: "{{ item }}"
         state: present
-      loop:
-        - linux
-        - linux-headers
-        - linux-lts
-        - linux-lts-headers
-        - neovim
-        - base-devel
-        - openssh
-        - networkmanager
-        - wpa_supplicant
-        - wireless_tools
-        - netctl
-        - dialog
-        - lvm2
-        - sudo
+        name:
+          - linux
+          - linux-headers
+          - linux-lts
+          - linux-lts-headers
+          - neovim
+          - base-devel
+          - openssh
+          - networkmanager
+          - wpa_supplicant
+          - wireless_tools
+          - netctl
+          - dialog
+          - lvm2
+          - sudo
 
     - name: Enable sshd and NetworkManager services
       service:
