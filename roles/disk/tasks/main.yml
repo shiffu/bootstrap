@@ -1,90 +1,90 @@
 ---
 
-  - name: Create the UEFI Partition
-    changed_when: false 
-    community.general.parted:
-      device: "{{ device_name }}"
-      number: 1
-      flags: [ boot ]
-      label: gpt
-      name: EFI Boot Partition
-      part_end: 200MB
-      state: present
+- name: Create the UEFI Partition
+  changed_when: false 
+  community.general.parted:
+    device: "{{ device_name }}"
+    number: 1
+    flags: [ boot ]
+    label: gpt
+    name: EFI Boot Partition
+    part_end: 200MB
+    state: present
 
-  - name: Create the LVM Partition (/root and /home)
-    community.general.parted:
-      device: /dev/vda
-      number: 2
-      flags: [ lvm ]
-      label: gpt
-      name: Linux LVM Partition
-      part_start: "{{ efi_partition_size }}"
-      part_end: 100%
-      state: present
+- name: Create the LVM Partition (/root and /home)
+  community.general.parted:
+    device: /dev/vda
+    number: 2
+    flags: [ lvm ]
+    label: gpt
+    name: Linux LVM Partition
+    part_start: "{{ efi_partition_size }}"
+    part_end: 100%
+    state: present
 
-  - name: Install lvm2 dependency
-    package:
-      name: lvm2
-      state: present
-      update_cache: true
+- name: Install lvm2 dependency
+  package:
+    name: lvm2
+    state: present
+    update_cache: true
 
-  - name: Create the Volume Group
-    community.general.lvg:
-      vg: vg0
-      pvs: "{{ device_name }}2"
-      pesize: 16
+- name: Create the Volume Group
+  community.general.lvg:
+    vg: vg0
+    pvs: "{{ device_name }}2"
+    pesize: 16
 
-  - name: Create Logical Volume for /root
-    community.general.lvol:
-      vg: vg0
-      lv: root_lv
-      size: "{{ root_lv_size }}"
+- name: Create Logical Volume for /root
+  community.general.lvol:
+    vg: vg0
+    lv: root_lv
+    size: "{{ root_lv_size }}"
 
-  - name: Create Logical Volume for /home
-    community.general.lvol:
-      vg: vg0
-      lv: home_lv
-      size: "{{ home_lv_size }}"
-      shrink: false
+- name: Create Logical Volume for /home
+  community.general.lvol:
+    vg: vg0
+    lv: home_lv
+    size: "{{ home_lv_size }}"
+    shrink: false
 
-  - name: Format UEFI Boot Partition (FAT32)
-    filesystem:
-      dev: "{{ device_name }}1"
-      fstype: vfat
-      opts: -F32
-      state: present
+- name: Format UEFI Boot Partition (FAT32)
+  filesystem:
+    dev: "{{ device_name }}1"
+    fstype: vfat
+    opts: -F32
+    state: present
 
-  - name: Format root LVM Partition (ext4)
-    filesystem:
-      dev: /dev/vg0/root_lv
-      fstype: ext4
-      state: present
+- name: Format root LVM Partition (ext4)
+  filesystem:
+    dev: /dev/vg0/root_lv
+    fstype: ext4
+    state: present
 
-  - name: Format home LVM Partition (ext4)
-    filesystem:
-      dev: /dev/vg0/home_lv
-      fstype: ext4
-      state: present
+- name: Format home LVM Partition (ext4)
+  filesystem:
+    dev: /dev/vg0/home_lv
+    fstype: ext4
+    state: present
 
-  - name: Mount the root device
-    mount:
-      path: /mnt
-      src: /dev/vg0/root_lv
-      fstype: ext4
-      opts: rw,relatime
-      passno: 1
-      state: mounted
+- name: Mount the root device
+  mount:
+    path: /mnt
+    src: /dev/vg0/root_lv
+    fstype: ext4
+    opts: rw,relatime
+    passno: 1
+    state: mounted
 
-  - name: Create the /mnt/home folder
-    file:
-      path: /mnt/home
-      state: directory
+- name: Create the /mnt/home folder
+  file:
+    path: /mnt/home
+    state: directory
 
-  - name: Mount the home device
-    mount:
-      path: /mnt/home
-      src: /dev/vg0/home_lv
-      fstype: ext4
-      opts: rw,relatime
-      passno: 2
-      state: mounted
+- name: Mount the home device
+  mount:
+    path: /mnt/home
+    src: /dev/vg0/home_lv
+    fstype: ext4
+    opts: rw,relatime
+    passno: 2
+    state: mounted
