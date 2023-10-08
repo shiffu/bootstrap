@@ -1,6 +1,6 @@
 ---
 
-- name: Prepare the installation: disk partitions & pacstrap
+- name: Prepare the installation - disk partitions & pacstrap
   hosts: localhost
   connection: local
 
