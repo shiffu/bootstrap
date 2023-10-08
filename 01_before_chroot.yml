@@ -1,0 +1,15 @@
+---
+
+- name: Prepare the installation: disk partitions & pacstrap
+  hosts: localhost
+  connection: local
+
+  roles:
+    - disk
+
+  tasks:
+  - name: Pacstrap
+    command:
+      cmd: pacstrap /mnt base
+      creates: /mnt/usr
+
