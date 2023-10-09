@@ -73,7 +73,8 @@
 - name: Extract P4Merge tgz
   unarchive:
     owner: '{{ user_name }}'
-    src: '{{ p4merge_tgz_filepath }}'
+    remote_src: true
+    src: '{{ p4merge_tgz_uri }}'
     dest: /opt
     creates: '/opt/{{ p4merge_dir }}/'
 
