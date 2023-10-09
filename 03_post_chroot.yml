@@ -3,6 +3,7 @@
 - name: 
   hosts: localhost
   connection: local
+  become: true
   vars_files:
     - ~/.ansible/vaults/arch_linux_setup
 
