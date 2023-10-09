@@ -52,10 +52,10 @@
 
 - name: Create the main user
   user:
-    name: "{{ main_user_name }}"
-    group: "{{ main_user_group }}"
+    name: "{{ user_name }}"
+    group: "{{ user_group }}"
     groups: wheel
-    password: "{{ main_user_pwd | password_hash('sha512', main_user_salt) }}"
+    password: "{{ user_pwd | password_hash('sha512', user_salt) }}"
     state: present
 
 - name: Set the wheel group in the sudoers file to nopasswd
