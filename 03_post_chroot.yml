@@ -5,7 +5,7 @@
   connection: local
   become: true
   vars_files:
-    - ~/.ansible/vaults/arch_linux_setup
+    - ~/.ansible/vaults/my_arch_config
 
   roles:
     - common_setup
