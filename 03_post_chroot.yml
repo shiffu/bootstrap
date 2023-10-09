@@ -1,12 +1,10 @@
 ---
 
 - name: 
-  hosts: localhost
-  connection: local
+  hosts: all
   become: true
   vars_files:
     - ~/.ansible/vaults/my_arch_config
 
   roles:
     - common_setup
-
