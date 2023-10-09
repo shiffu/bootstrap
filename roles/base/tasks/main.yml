@@ -27,7 +27,14 @@
     - sshd
     - NetworkManager
 
-- name: Update mkinitcpio config
+- name: Update mkinitcpio config - ensure default HOOKS without lvm2 is commented
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: "^HOOKS=\\(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck\\)"
+    state: absent
+  notify: create_linux_kernel_images
+
+- name: Update mkinitcpio config - ensure HOOKS with lvm2 is uncommented
   lineinfile:
     path: /etc/mkinitcpio.conf
     regexp: "^#\\s+HOOKS=\\(base udev modconf block lvm2 filesystems fsck\\)"
