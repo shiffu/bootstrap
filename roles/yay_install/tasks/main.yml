@@ -1,0 +1,6 @@
+---
+
+- name: Install packages with yay
+  command:
+    cmd: yay -S --noconfirm {{ item }}
+  loop: "{{ packages }}"

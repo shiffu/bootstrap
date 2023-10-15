@@ -26,6 +26,7 @@
 - name: Run grub-install
   command:
     cmd: grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+    creates: /boot/grub/grub.cfg
 
 - name: Check /boot/grub/locale exists
   file:
@@ -41,4 +42,5 @@
 - name: Run grub-mkconfig
   command:
     cmd: grub-mkconfig -o /boot/grub/grub.cfg
+    creates: /boot/grub/grub.cfg
 

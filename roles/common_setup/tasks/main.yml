@@ -1,5 +1,9 @@
 ---
 
+- name: Update pacman cache
+  pacman:
+    update_cache: yes
+
 - name: Install packages
   package:
     name:
@@ -11,9 +15,17 @@
       - alacritty
       - chromium
       - clang
+      - cloc
       - cmake
+      - cmatrix
+      - darktable
+      - dolphin
+      - dolphin-plugins
+      - fzf
       - gcc
+      - gdb
       - gimp
+      - gnome-calculator
       - gnupg
       - graphviz
       - gzip
@@ -21,11 +33,18 @@
       - lazygit
       - lua
       - make
+      - neofetch
       - neovim
+      - nvidia
+      - nvidia-lts
+      - openssh
+      - ranger
+      - remmina
       - ripgrep
       - sed
       - stow
       - task
+      - taskwarrior-tui
       - tigervnc
       - tree
       - tree-sitter
@@ -40,11 +59,9 @@
       - xorg-xauth
       - zsh
     state: present
-    update_cache: yes
 
 - name: dotfiles git clone
   become_user: '{{ user_name }}'
-  register: dotfiles_status
   git:
     repo: https://github.com/shiffu/dotfiles.git
     dest: '/home/{{ user_name }}/dotfiles'
@@ -55,20 +72,41 @@
     state: present
     package: '{{ item }}'
     dir: '/home/{{ user_name }}/dotfiles'
-  with_items:
+  loop:
     - git
     - mergetool
     - zsh
+    - rofi
     - tmux
     - nvim
     - alacritty
     - task
     - gdb
 
+- name: Check user's Shell
+  shell:
+    cmd: "cat /etc/passwd | grep {{ user_name }} | cut -d: -f7"
+  register: user_shell
+  changed_when: false
+
 - name: Activate zsh as default Shell
   shell:
     cmd: 'chsh -s /usr/bin/zsh {{ user_name }}'
-  when: ansible_facts['user_shell'] != '/usr/bin/zsh'
+  when: user_shell.stdout != "/usr/bin/zsh"
+
+- name: Create the SynologyDrive Root folder
+  file:
+    path: /home/{{ user_name }}/SynologyDrive
+    state: directory
+
+- name: Prepare default symlinks to SynologyDrive main folders
+  file:
+    path: /home/{{ user_name }}/{{ item.link }}
+    src: /home/{{ user_name }}/SynologyDrive/{{ item.src }}
+    state: link
+  loop:
+    - { link: .task, src: taskwarrior }
+    - { link: wallpapers, src: wallpapers }
 
 - name: Extract P4Merge tgz
   unarchive:
@@ -81,5 +119,5 @@
 - name: Add symlink to p4merge binary in /usr/bin
   shell: 'ln -s /opt/{{ p4merge_dir }}/bin/p4merge p4merge'
   args:
-    chdir: /usr/bin
+    chdir: /usr/bin/
     creates: p4merge

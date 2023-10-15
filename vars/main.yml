@@ -1,1 +1,4 @@
 install_device_name: /dev/vda
+ansible_vault_dir: ~/.ansible/vaults
+ansible_vault_name: my_arch_config
+desktop_env: i3

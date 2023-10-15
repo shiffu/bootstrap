@@ -1,10 +1,27 @@
 ---
 
-- name: 
+- name: Post chroot installation
   hosts: all
   become: true
+  
   vars_files:
+    - vars/main.yml
     - ~/.ansible/vaults/my_arch_config
 
   roles:
     - common_setup
+
+    - role: makepkg
+      vars:
+        package_name: yay
+
+    - role: yay_install
+      become: false
+      vars:
+        packages:
+          - brave-bin
+          - spotify
+          - synology-drive
+
+    - role: i3
+      when: desktop_env == "i3"

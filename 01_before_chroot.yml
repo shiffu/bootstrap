@@ -2,15 +2,48 @@
 
 - name: Prepare the installation - disk partitions & pacstrap
   hosts: all
-  become: true
+  remote_user: root
+
   vars_files:
     - vars/main.yml
+    - "{{ansible_vault_dir}}/{{ansible_vault_name}}"
+  vars:
+    ansible_ssh_pass: "{{ root_pwd }}"
 
   roles:
-    - disk
+    - role: create_user
+    - role: disk
 
   tasks:
+  - name: Ensure the /mnt/home/<user_name>/.ssh directory exists
+    file:
+      path: "/mnt/home/{{ user_name }}/.ssh"
+      owner: "{{ user_name }}"
+      group: "{{ user_group }}"
+      mode: 0700
+      state: directory
+
+  - name: Copy newly created ssh pub key in the authorized_keys file
+    copy:
+      src: "{{ ssh_private_key_path }}.pub"
+      dest: "/mnt/home/{{ user_name }}/.ssh/authorized_keys"
+      owner: "{{ user_name }}"
+      group: "{{ user_group }}"
+      mode: 0600
+
+  - name: Copy the vault to the remote root user's home
+    copy:
+      src: "{{ ansible_vault_dir }}/"
+      dest: "/mnt/root/.ansible/vaults/"
+      mode: 0600
+
   - name: Pacstrap
     command:
-      cmd: pacstrap /mnt base
-      creates: /mnt/usr
+      cmd: pacstrap /mnt base zsh ansible git
+      creates: /mnt/usr/bin/ansible
+
+  - name: Git clone on remote
+    shell:
+      cmd: arch-chroot /mnt zsh -c 'cd /root && git clone https://github.com/shiffu/bootstrap.git'
+      creates: /mnt/root/bootstrap
+

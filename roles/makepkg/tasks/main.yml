@@ -1,0 +1,35 @@
+---
+
+- name: Check if package {{ package_name }} is already installed
+  shell:
+    cmd: pacman -Qsq | grep {{ package_name }}; [ $? -lt 2 ]
+  register: package_installed
+  changed_when: false
+
+- name: Make and install {{ package_name }}
+  become: true
+  become_user: "{{ user_name }}"
+  when: package_installed.stdout == ""
+  block:
+    - name: Create tmp build dir
+      tempfile:
+        state: directory
+      register: tmp_dir
+
+    - debug: var=tmp_dir.path
+
+    - name: Git clone package from AUR {{ aur_url }}
+      git:
+        repo: "{{ aur_url }}/{{ package_name }}.git"
+        dest: "{{ tmp_dir.path }}"
+
+    - name: Build and install package {{ package_name }}
+      shell:
+        cmd: makepkg -rsi --noconfirm
+        chdir: "{{ tmp_dir.path }}"
+
+  always:
+    - name: Remove temp build dir
+      file:
+        state: absent
+        path: "{{ tmp_dir.path }}"

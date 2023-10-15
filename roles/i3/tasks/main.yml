@@ -1,26 +1,46 @@
 ---
 
-- name: Install I3 specific packages
+- name: Install i3 'dependencies'
   package:
     name:
       - feh
       - gnome-calculator
-      - i3-wm
-      - i3blocks
-      - i3status
       - lightdm
       - lightdm-gtk-greeter
       - picom
       - ranger
+      - rofi
+      - xorg-server
     state: present
+
+- name: Install i3 specific packages
+  register: i3_install_status
+  package:
+    name:
+      - i3-wm
+      - i3blocks
+      - i3status
+    state: present
+
+- name: Check if default i3 config is installed
+  stat:
+    path: /home/{{ user_name }}/.config/i3
+  register: i3_config
+
+- name: Delete default i3 config if it exists
+  file:
+    path: /home/{{ user_name }}/.config/i3
+    state: absent
+  when: i3_config.stat.isdir is defined and i3_config.stat.isdir == true
 
 - name: Stow dotfiles
   become_user: '{{ user_name }}'
+  # when: i3_install_status.changed == true
   stow:
     state: present
     package: '{{ item }}'
-    dir: "{{ ansible_facts['user_dir'] }}/dotfiles/"
-  with_items:
+    dir: "/home/{{ user_name }}/dotfiles/"
+  loop:
     - i3
     - i3blocks
 

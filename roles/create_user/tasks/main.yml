@@ -1,0 +1,47 @@
+
+- name: Create the ssh key pair
+  connection: local
+  become_user: "{{ user_name }}"
+  vars:
+    ansible_ssh_pass: "{{ user_pwd }}"
+  openssh_keypair:
+    path: "{{ ssh_private_key_path }}"
+    type: rsa
+    state: present
+
+# - name: Create the group
+#   group:
+#     name: "{{ user_group }}"
+#     state: present
+  
+- name: Create the user
+  user:
+    name: "{{ user_name }}"
+    group: "{{ user_group }}"
+    groups: wheel
+    password: "{{ user_pwd | password_hash('sha512', user_salt) }}"
+    state: present
+
+- name: Ensure the ~/.ssh directory of the user exists
+  file:
+    path: "~{{ user_name }}/.ssh"
+    owner: "{{ user_name }}"
+    group: "{{ user_group }}"
+    mode: 0700
+    state: directory
+
+- name: Copy newly created ssh pub key in the authorized_keys file
+  copy:
+    src: "{{ ssh_private_key_path }}.pub"
+    dest: "~{{ user_name }}/.ssh/authorized_keys"
+    owner: "{{ user_name }}"
+    group: "{{ user_group }}"
+    mode: 0600
+
+- name: Set the wheel group in the sudoers file to nopasswd
+  lineinfile:
+    path: /etc/sudoers
+    regexp: "^# %wheel ALL=\\(ALL:ALL\\) NOPASSWD: ALL"
+    line: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+    state: present
+  notify: restart_sshd
