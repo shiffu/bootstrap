@@ -11,6 +11,7 @@
       - tmux
       - bat
       - bc
+      - btop
       - htop
       - alacritty
       - chromium
@@ -74,7 +75,7 @@
     dir: '/home/{{ user_name }}/dotfiles'
   loop:
     - git
-    - mergetool
+    # - mergetool # This goes with p4merge tool
     - zsh
     - rofi
     - tmux
@@ -96,8 +97,18 @@
 
 - name: Create the SynologyDrive Root folder
   file:
+    owner: "{{ user_name }}"
     path: /home/{{ user_name }}/SynologyDrive
     state: directory
+
+- name: Create the SynologyDrive subfolders
+  file:
+    owner: "{{ user_name }}"
+    path: /home/{{ user_name }}/SynologyDrive/{{ item }}
+    state: directory
+  loop:
+    - taskwarrior
+    - wallpapers
 
 - name: Prepare default symlinks to SynologyDrive main folders
   file:
@@ -108,16 +119,16 @@
     - { link: .task, src: taskwarrior }
     - { link: wallpapers, src: wallpapers }
 
-- name: Extract P4Merge tgz
-  unarchive:
-    owner: '{{ user_name }}'
-    remote_src: true
-    src: '{{ p4merge_tgz_uri }}'
-    dest: /opt
-    creates: '/opt/{{ p4merge_dir }}/'
-
-- name: Add symlink to p4merge binary in /usr/bin
-  shell: 'ln -s /opt/{{ p4merge_dir }}/bin/p4merge p4merge'
-  args:
-    chdir: /usr/bin/
-    creates: p4merge
+# - name: Extract P4Merge tgz
+#   unarchive:
+#     owner: '{{ user_name }}'
+#     remote_src: true
+#     src: '{{ p4merge_tgz_uri }}'
+#     dest: /opt
+#     creates: '/opt/{{ p4merge_dir }}/'
+#
+# - name: Add symlink to p4merge binary in /usr/bin
+#   shell: 'ln -s /opt/{{ p4merge_dir }}/bin/p4merge p4merge'
+#   args:
+#     chdir: /usr/bin/
+#     creates: p4merge

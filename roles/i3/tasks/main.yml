@@ -18,8 +18,9 @@
   package:
     name:
       - i3-wm
-      - i3blocks
-      - i3status
+      - polybar
+      # - i3blocks
+      # - i3status
     state: present
 
 - name: Check if default i3 config is installed
@@ -42,7 +43,8 @@
     dir: "/home/{{ user_name }}/dotfiles/"
   loop:
     - i3
-    - i3blocks
+    - polybar
+    # - i3blocks
 
 - name: LightDM service Enable
   service:

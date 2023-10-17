@@ -16,8 +16,6 @@
         state: directory
       register: tmp_dir
 
-    - debug: var=tmp_dir.path
-
     - name: Git clone package from AUR {{ aur_url }}
       git:
         repo: "{{ aur_url }}/{{ package_name }}.git"
