@@ -14,6 +14,8 @@
       - btop
       - htop
       - alacritty
+      - bluez
+      - bluez-utils
       - chromium
       - clang
       - cloc
@@ -32,6 +34,7 @@
       - gzip
       - keepassxc
       - lazygit
+      - linux-firmware
       - lua
       - make
       - neofetch
@@ -39,6 +42,10 @@
       - nvidia
       - nvidia-lts
       - openssh
+      - pamixer
+      - pulseaudio
+      - pulseaudio-alsa
+      - pulseaudio-bluetooth
       - ranger
       - remmina
       - ripgrep
@@ -52,6 +59,7 @@
       - ttf-font-awesome
       - ttf-hack-nerd
       - unzip
+      - usbutils
       - vulkan-headers
       - vulkan-icd-loader
       - vulkan-tools
