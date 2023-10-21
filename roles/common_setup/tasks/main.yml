@@ -116,6 +116,8 @@
     path: /home/{{ user_name }}/SynologyDrive/{{ item }}
     state: directory
   loop:
+    - dev
+    - keepass
     - taskwarrior
     - wallpapers
 
