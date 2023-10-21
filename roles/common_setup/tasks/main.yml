@@ -23,8 +23,6 @@
       - cmake
       - cmatrix
       - darktable
-      - dolphin
-      - dolphin-plugins
       - fzf
       - gcc
       - gdb
