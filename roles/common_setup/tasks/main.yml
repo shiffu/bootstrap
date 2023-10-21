@@ -11,6 +11,7 @@
       - tmux
       - bat
       - bc
+      - bind
       - btop
       - htop
       - alacritty
