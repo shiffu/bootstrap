@@ -18,7 +18,7 @@
 - name: Mount the EFI folder
   mount:
     path: /boot/EFI/
-    src: "{{ root_partition_name }}"
+    src: "{{ boot_efi_partition_name }}"
     opts: rw,relatime
     fstype: vfat
     state: mounted
