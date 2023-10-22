@@ -1,23 +1,26 @@
 # Real install setup
-boot_efi_device_name: /dev/vda
+boot_efi_device_name: /dev/nvme0n1
 boot_efi_partition_num: 1
-boot_efi_partition_end: 100MB
+boot_efi_partition_name: /dev/nvme0n1p1
+boot_efi_partition_end: 200MB
 
 volume_groups:
   - name: vg0
-    pvs: /dev/vda2
+    pvs: /dev/nvme0n1p2
   - name: vg1
-    pvs: /dev/vdb1
+    pvs: /dev/sda1
 
-root_device_name: /dev/vda
+root_device_name: /dev/nvme0n1
 root_partition_num: 2
+root_partition_name: /dev/nvme0n1p2
 root_partition_start: "{{ boot_efi_partition_end }}"
 root_partition_end: 100%
 root_lvm_group_name: vg0
 root_lv_size: 100%FREE
 
-home_device_name: /dev/vdb
+home_device_name: /dev/sda
 home_partition_num: 1
+home_partition_name: /dev/sda1
 home_partition_start: 0%
 home_partition_end: 100%
 home_lvm_group_name: vg1
@@ -44,10 +47,12 @@ ansible_vault_name: my_arch_config
 #
 # home_device_name: /dev/vda
 # home_partition_num: 2
-# home_partition_start: 0
+# home_partition_start: 0%
 # home_partition_end: 100%FREE
 # home_lvm_group_name: vg0
 # home_lv_size: 100%FREE
+
+ansible_python_interpreter: /usr/bin/python3
 
 ansible_vault_dir: ~/.ansible/vaults
 ansible_vault_name: my_arch_config
