@@ -74,6 +74,7 @@
     vg: "{{ root_lvm_group_name }}"
     lv: root_lv
     size: "{{ root_lv_size }}"
+    shrink: false
 
 - name: Create Logical Volume for /home
   community.general.lvol:
