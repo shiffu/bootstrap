@@ -15,6 +15,7 @@
       - btop
       - htop
       - alacritty
+      - arandr
       - bluez
       - bluez-utils
       - chromium
@@ -65,6 +66,7 @@
       - vulkan-validation-layers
       - vulkan-validation-layers
       - xorg-xauth
+      - xorg-xrandr
       - zsh
     state: present
 
