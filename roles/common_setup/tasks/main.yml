@@ -128,6 +128,11 @@
     - { link: .task, src: taskwarrior }
     - { link: wallpapers, src: wallpapers }
 
+- name: Set the proper timezone
+  timezone:
+    name: "US/Eastern"
+  notify: timezone_update
+
 # - name: Extract P4Merge tgz
 #   unarchive:
 #     owner: '{{ user_name }}'
