@@ -2,6 +2,7 @@
 
 - name: Post chroot installation
   hosts: all
+  remote_user: "{{ user_name }}"
   become: true
   
   vars_files:
