@@ -44,6 +44,7 @@
   loop:
     - i3
     - polybar
+    - picom
     # - i3blocks
 
 - name: LightDM service Enable

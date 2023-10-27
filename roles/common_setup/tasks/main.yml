@@ -34,6 +34,7 @@
       - gzip
       - keepassxc
       - lazygit
+      - lf
       - linux-firmware
       - lua
       - make
@@ -46,7 +47,6 @@
       - pulseaudio
       - pulseaudio-alsa
       - pulseaudio-bluetooth
-      - ranger
       - remmina
       - ripgrep
       - sed
@@ -83,13 +83,14 @@
     package: '{{ item }}'
     dir: '/home/{{ user_name }}/dotfiles'
   loop:
+    - alacritty
     - git
+    - lazygit
     # - mergetool # This goes with p4merge tool
     - zsh
     - rofi
     - tmux
     - nvim
-    - alacritty
     - task
     - gdb
 
