@@ -122,6 +122,7 @@
     state: directory
   loop:
     - dev
+    - doc
     - keepass
     - taskwarrior
     - wallpapers
