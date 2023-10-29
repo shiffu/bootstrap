@@ -3,13 +3,13 @@
 - name: Install i3 'dependencies'
   package:
     name:
+      - dunst
+      - libnotify
       - feh
-      - gnome-calculator
       - lightdm
       - lightdm-gtk-greeter
       - picom
-      - ranger
-      - rofi
+      - xclip
       - xorg-server
     state: present
 
@@ -19,8 +19,6 @@
     name:
       - i3-wm
       - polybar
-      # - i3blocks
-      # - i3status
     state: present
 
 - name: Check if default i3 config is installed
@@ -42,10 +40,11 @@
     package: '{{ item }}'
     dir: "/home/{{ user_name }}/dotfiles/"
   loop:
+    - dunst
     - i3
     - polybar
     - picom
-    # - i3blocks
+    - scripts
 
 - name: LightDM service Enable
   service:
