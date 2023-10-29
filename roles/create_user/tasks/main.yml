@@ -1,8 +1,7 @@
+---
 
 - name: Create the ssh key pair
   connection: local
-  vars_files:
-    - "{{ansible_vault_dir}}/{{ansible_vault_name}}"
   vars:
     ansible_ssh_pass: "{{ local_user_pwd }}"
   become_user: "{{ local_user_name }}"

@@ -54,7 +54,4 @@ ansible_vault_name: my_arch_config
 
 ansible_python_interpreter: /usr/bin/python3
 
-ansible_vault_dir: ~/.ansible/vaults
-ansible_vault_name: my_arch_config
-
 desktop_env: i3
