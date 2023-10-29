@@ -44,11 +44,14 @@
       - nvidia-lts
       - openssh
       - pamixer
+      - papirus-icon-theme
       - pulseaudio
       - pulseaudio-alsa
       - pulseaudio-bluetooth
       - remmina
       - ripgrep
+      - rofi
+      - rofi-calc
       - sed
       - stow
       - task
@@ -86,6 +89,7 @@
     - alacritty
     - git
     - lazygit
+    - lf
     # - mergetool # This goes with p4merge tool
     - zsh
     - rofi
